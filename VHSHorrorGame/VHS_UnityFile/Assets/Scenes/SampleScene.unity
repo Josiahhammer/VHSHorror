@@ -948,24 +948,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!143 &1650934336
-CharacterController:
+--- !u!54 &1650934336
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650934335}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Mass: 2
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &1650934337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,10 +976,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10805db4701aa24eaada352637a9d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  mouseSensitivity: 800
-  jumpHeight: 100
-  gravity: -9.81
+  moveSpeed: 15
+  mouseSensitivity: 1000
+  jumpForce: 10
+  gravity: 0
   flashlight: {fileID: 1777646053}
 --- !u!136 &1650934338
 CapsuleCollider:

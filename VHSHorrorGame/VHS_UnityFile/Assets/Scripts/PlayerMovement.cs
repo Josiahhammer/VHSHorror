@@ -6,10 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 100f;
     public float mouseSensitivity = 1000f;
-    public float jumpHeight = 100f;
+    public float jumpForce = 100f;
     public float gravity = -9.81f;
 
-    private CharacterController controller;
+    private Rigidbody rb;
     private Vector3 moveDirection;
     private float xRotation = 0f;
     private float yRotation = 0f;
@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -26,24 +26,21 @@ public class PlayerMovement : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-/*        print(mouseX);
-        print(mouseY);*/
         xRotation -= mouseY;
         yRotation -= mouseX;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.GetChild(1).localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.localRotation = Quaternion.Euler(0f, -yRotation, 0f);
-        //Camera.main.transform.Rotate(Vector3.up * mouseX);
 
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         moveDirection = transform.right * x + transform.forward * z;
-        moveDirection.y = gravity;
+        moveDirection.y = 0;
 
-        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            moveDirection.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -51,6 +48,16 @@ public class PlayerMovement : MonoBehaviour
             flashlight.enabled = !flashlight.enabled;
         }
 
-        controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + moveDirection * moveSpeed * Time.deltaTime);
+    }
+
+    bool IsGrounded()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 1.2f))
+        {
+            return true;
+        }
+        return false;
     }
 }
